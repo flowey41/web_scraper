@@ -27,14 +27,11 @@ print(f'Extracting book details and sorting out books not first in a series and 
 
 sleep(1)
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-}
 for page in range(1, pages + 1):
     current_url = url_template.format(page)
     print(f'Processing page {page}/{pages}...', end='\r')
     # setting up the web scraper
-    html_text = requests.get(current_url, headers=headers).text
+    html_text = requests.get(current_url).text
     soup = BeautifulSoup(html_text, 'lxml')
     books = soup.find_all('tr')
     # extracting book details
