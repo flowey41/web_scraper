@@ -12,7 +12,7 @@ file = input('What shall be the name of the file?: ') + '.txt'
 base_url = input('Return the link of the list you want to sort: ')
 url_template = base_url + '?page={}'
 pages = int(input('How many pages does the list have?: '))
-min_ratings =int(input('Specify the minimum amount of ratings a book should have: '))
+min_ratings = int(input('Specify the minimum amount of ratings a book should have: '))
 
 sleep(1)
 
@@ -22,6 +22,11 @@ book_details = []
 
 sleep(1)
 
+# defining headers to use a user agent
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+}
+
 # searching for book details
 print(f'Extracting book details and sorting out books not first in a series and under {min_ratings} ratings...')
 
@@ -30,8 +35,8 @@ sleep(1)
 for page in range(1, pages + 1):
     current_url = url_template.format(page)
     print(f'Processing page {page}/{pages}...', end='\r')
-    # setting up the web scraper
-    html_text = requests.get(current_url).text
+    # setting up the web scraper with headers
+    html_text = requests.get(current_url, headers=headers).text
     soup = BeautifulSoup(html_text, 'lxml')
     books = soup.find_all('tr')
     # extracting book details
